@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arkeoloji Robotu | Robotik Takımı</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏛️</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-red: #C41E3A;
+      --soft-red: #E63946;
+      --light-red: #FFB4B4;
+      --bg-white: #FFFFFF;
+      --bg-light: #F8F9FA;
+      --text-dark: #2D3748;
+      --text-gray: #718096;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-white);
+      padding: 20px;
+      border-bottom: 2px solid rgba(196, 30, 58, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-btn {
+      background: var(--bg-white);
+      border: 2px solid var(--primary-red);
+      color: var(--primary-red);
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--primary-red);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(196, 30, 58, 0.2);
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      color: var(--primary-red);
+      font-weight: 700;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 100px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 180, 180, 0.1) 0%, var(--bg-white) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(rgba(196, 30, 58, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-icon {
+      font-size: 8rem;
+      margin-bottom: 30px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--primary-red);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--text-gray);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Typewriter Section */
+    .typewriter-section {
+      background: var(--bg-white);
+      padding: 100px 20px;
+    }
+
+    .typewriter-container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      color: var(--soft-red);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    .typewriter-text {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--text-dark);
+      min-height: 150px;
+      font-weight: 400;
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: var(--primary-red);
+      margin-left: 3px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Content Sections */
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 20px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--primary-red);
+      margin-bottom: 60px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .info-card {
+      background: var(--bg-white);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(196, 30, 58, 0.15);
+      border-color: var(--light-red);
+    }
+
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      color: var(--primary-red);
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      color: var(--text-gray);
+      line-height: 1.8;
+    }
+
+    /* Image Gallery */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 60px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      aspect-ratio: 16/10;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      border: 3px solid var(--bg-white);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Features */
+    .features-list {
+      display: grid;
+      gap: 25px;
+      margin-top: 60px;
+    }
+
+    .feature-item {
+      background: var(--bg-white);
+      border-left: 5px solid var(--soft-red);
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+      padding-left: 45px;
+      box-shadow: 0 10px 40px rgba(196, 30, 58, 0.12);
+    }
+
+    .feature-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary-red);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    /* Specs Table */
+    .specs-table {
+      width: 100%;
+      margin-top: 60px;
+      background: var(--bg-white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    }
+
+    .specs-table tr {
+      border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .specs-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .specs-table td {
+      padding: 25px 30px;
+    }
+
+    .specs-table td:first-child {
+      font-weight: 600;
+      color: var(--primary-red);
+      font-family: 'Space Grotesk', sans-serif;
+      width: 35%;
+    }
+
+    .specs-table td:last-child {
+      color: var(--text-gray);
+    }
+
+    .specs-table tr:hover {
+      background: rgba(196, 30, 58, 0.03);
+    }
+
+    /* Team Grid */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 35px;
+      margin-top: 60px;
+    }
+
+    .team-member {
+      text-align: center;
+      padding: 40px 30px;
+      background: var(--bg-white);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .team-member:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 50px rgba(196, 30, 58, 0.15);
+      border-color: var(--light-red);
+    }
+
+    .member-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--soft-red), var(--primary-red));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      margin: 0 auto 20px;
+      border: 4px solid var(--bg-white);
+      box-shadow: 0 5px 20px rgba(196, 30, 58, 0.2);
+    }
+
+    .member-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      color: var(--primary-red);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .member-role {
+      font-size: 0.95rem;
+      color: var(--text-gray);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--bg-white) 0%, rgba(255, 180, 180, 0.15) 100%);
+      padding: 100px 20px;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+
+    .cta-btn {
+      background: var(--bg-white);
+      border: 2px solid var(--primary-red);
+      color: var(--primary-red);
+      padding: 18px 45px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .cta-btn:hover {
+      background: var(--primary-red);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(196, 30, 58, 0.25);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 20px;
+      text-align: center;
+      background: var(--bg-white);
+      border-top: 1px solid rgba(196, 30, 58, 0.1);
+      color: var(--text-gray);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .cards-grid, .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .specs-table td:first-child {
+        width: 45%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo">🤖 ROBOTIK TAKIMI</div>
+      <a href="/" class="back-btn">← Ana Sayfa</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🏛️</div>
+      <h1 class="hero-title">ARKEOLOJİ ROBOTU</h1>
+      <p class="hero-subtitle">
+        Tarihi eserleri koruyarak analiz eden, yapay zeka destekli otonom robot sistemi
+      </p>
+    </div>
+  </section>
+
+  <!-- Typewriter Section -->
+  <section class="typewriter-section">
+    <div class="typewriter-container">
+      <div class="section-label">Proje Açıklaması</div>
+      <div class="typewriter-text" id="projectDescription">
+        <span class="typing-cursor"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section class="content-section" style="background: var(--bg-light);">
+    <h2 class="section-title">PROJE HAKKINDA</h2>
+    <div class="cards-grid">
+      <div class="info-card">
+        <div class="card-icon">🎯</div>
+        <h3 class="card-title">Amaç</h3>
+        <p class="card-text">
+          Arkeolojik kazılarda hassas tarama ve belgeleme yaparak, tarihi eserlerin 
+          zarar görmeden incelenmesini sağlamak.
+        </p>
+      </div>
+      <div class="info-card">
+        <div class="card-icon">🔬</div>
+        <h3 class="card-title">Teknoloji</h3>
+        <p class="card-text">
+          LiDAR sensörler, 3D fotogrametri, yapay zeka tabanlı nesne tanıma ve 
+          otonom navigasyon sistemleri.
+        </p>
+      </div>
+      <div class="info-card">
+        <div class="card-icon">🏆</div>
+        <h3 class="card-title">Başarılar</h3>
+        <p class="card-text">
+          Ulusal Robotik Yarışması 1.lik, TEKNOFEST Finalist, 3 adet patent başvurusu.
+        </p>
+      </div>
+    </div>
+
+    <div class="image-gallery">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop" alt="Robot">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop" alt="Sistem">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop" alt="AI">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="content-section" style="background: var(--bg-white);">
+    <h2 class="section-title">ÖZELLİKLER</h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <h3 class="feature-title">🤖 Otonom Navigasyon</h3>
+        <p>SLAM algoritmaları ile kazı alanında harita oluşturarak otonom hareket edebilir.</p>
+      </div>
+      <div class="feature-item">
+        <h3 class="feature-title">📸 3D Tarama ve Modelleme</h3>
+        <p>Yüksek çözünürlüklü kameralar ve LiDAR sensörler ile milimetrik hassasiyette 3D modeller oluşturur.</p>
+      </div>
+      <div class="feature-item">
+        <h3 class="feature-title">🧠 Yapay Zeka Analizi</h3>
+        <p>Derin öğrenme modelleri ile eserleri tanır, kategorize eder ve tarihlendirir.</p>
+      </div>
+      <div class="feature-item">
+        <h3 class="feature-title">🌐 Gerçek Zamanlı Veri İletimi</h3>
+        <p>Kablosuz bağlantı ile toplanan verileri anlık olarak merkezi sisteme iletir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specs -->
+  <section class="content-section" style="background: var(--bg-light);">
+    <h2 class="section-title">TEKNİK ÖZELLİKLER</h2>
+    <table class="specs-table">
+      <tr><td>Boyutlar</td><td>80cm x 60cm x 50cm</td></tr>
+      <tr><td>Ağırlık</td><td>25 kg</td></tr>
+      <tr><td>Hareket Hızı</td><td>0.5 m/s</td></tr>
+      <tr><td>İşlemci</td><td>NVIDIA Jetson Xavier NX</td></tr>
+      <tr><td>Kamera Sistemi</td><td>4K Stereo Kamera + ToF</td></tr>
+      <tr><td>LiDAR</td><td>360° Tarama, 30m Menzil</td></tr>
+      <tr><td>Pil</td><td>24V 10Ah Lityum-İyon</td></tr>
+      <tr><td>Çalışma Süresi</td><td>8 saat</td></tr>
+    </table>
+  </section>
+
+  <!-- Team -->
+  <section class="content-section" style="background: var(--bg-white);">
+    <h2 class="section-title">PROJE EKİBİ</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="member-avatar">👨‍💻</div>
+        <div class="member-name">Ahmet Yılmaz</div>
+        <div class="member-role">Proje Lideri</div>
+      </div>
+      <div class="team-member">
+        <div class="member-avatar">👩‍🔬</div>
+        <div class="member-name">Zeynep Kaya</div>
+        <div class="member-role">Yazılım</div>
+      </div>
+      <div class="team-member">
+        <div class="member-avatar">👨‍🔧</div>
+        <div class="member-name">Mehmet Demir</div>
+        <div class="member-role">Mekanik</div>
+      </div>
+      <div class="team-member">
+        <div class="member-avatar">👩‍💻</div>
+        <div class="member-name">Ayşe Öztürk</div>
+        <div class="member-role">Yapay Zeka</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="section-title">Daha Fazla Bilgi</h2>
+    <div class="cta-buttons">
+      <a href="/iletisim.html" class="cta-btn">İletişime Geç</a>
+      <a href="/" class="cta-btn">Diğer Projeler</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Robotik Takımı | Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>
+    // Typewriter for project description
+    const description = "Arkeoloji robotumuz, tarihi kazı alanlarında çalışan araştırmacılara yardımcı olmak için tasarlanmıştır. Yapay zeka destekli görüntü işleme ve otonom navigasyon özellikleri sayesinde, hassas tarama ve dokümantasyon işlemlerini otomatik olarak gerçekleştirir.";
+    
+    let charIndex = 0;
+    let isTyping = true;
+    
+    function typeDescription() {
+      const element = document.getElementById('projectDescription');
+      
+      if (isTyping) {
+        if (charIndex < description.length) {
+          element.innerHTML = description.substring(0, charIndex + 1) + '<span class="typing-cursor"></span>';
+          charIndex++;
+          setTimeout(typeDescription, 50);
+        } else {
+          setTimeout(() => {
+            isTyping = false;
+            typeDescription();
+          }, 3000);
+        }
+      } else {
+        if (charIndex > 0) {
+          element.innerHTML = description.substring(0, charIndex - 1) + '<span class="typing-cursor"></span>';
+          charIndex--;
+          setTimeout(typeDescription, 30);
+        } else {
+          setTimeout(() => {
+            isTyping = true;
+            typeDescription();
+          }, 1000);
+        }
+      }
+    }
+    
+    setTimeout(typeDescription, 500);
+  </script>
+</body>
+</html>
